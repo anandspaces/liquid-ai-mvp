@@ -1,0 +1,30 @@
+services:
+  liquid-ai-mvp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: liquid-ai-mvp
+    environment:
+      - HF_HOME=/root/.cache/huggingface
+      # Optimize for 12 cores
+      - OMP_NUM_THREADS=12
+      - MKL_NUM_THREADS=12
+      - OPENBLAS_NUM_THREADS=12
+      # Disable tokenizers parallelism warning
+      - TOKENIZERS_PARALLELISM=false
+    ports:
+      - "8090:8090"
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+      - ./api_server.py:/app/api_server.py
+      - ./api_client.py:/app/api_client.py
+      - ./main.py:/app/main.py
+    restart: unless-stopped
+    # Add healthcheck
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    command: python api_server.py
