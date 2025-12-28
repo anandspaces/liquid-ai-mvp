@@ -1,0 +1,1 @@
+### CPU based setup for LFM2-1.2B
