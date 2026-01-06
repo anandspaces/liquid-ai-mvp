@@ -47,4 +47,4 @@ COPY *.py ./
 EXPOSE 8090
 
 # Run with proper signal handling
-CMD ["python", "-u", "api_server.py"]
+CMD ["python", "-u", "server.py"]

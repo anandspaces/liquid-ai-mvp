@@ -16,8 +16,7 @@ services:
       - "8090:8090"
     volumes:
       - ~/.cache/huggingface:/root/.cache/huggingface
-      - ./api_server.py:/app/api_server.py
-      - ./api_client.py:/app/api_client.py
+      - ./server.py:/app/server.py
       - ./main.py:/app/main.py
     restart: unless-stopped
     # Add healthcheck
@@ -27,4 +26,4 @@ services:
       timeout: 10s
       retries: 3
       start_period: 120s
-    command: python api_server.py
+    command: python server.py
